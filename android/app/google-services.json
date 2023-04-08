@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "586855665150",
+    "project_id": "road-emergency-f8280",
+    "storage_bucket": "road-emergency-f8280.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586855665150:android:375f72bc19ec12cd07c4af",
+        "android_client_info": {
+          "package_name": "com.example.road_emergency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586855665150-0kit6g63qisuq52q29pbogkdrpstgs6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhwlkmVPG2ByQSMocPatFnZtAnPSJ3kmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586855665150-0kit6g63qisuq52q29pbogkdrpstgs6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
