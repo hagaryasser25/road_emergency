@@ -76,22 +76,38 @@ class _UserCentersState extends State<UserCenters> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Column(children: [
-                    Text(
-                      '${centerList[index].name.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    Image.network('${centerList[index].imageUrl.toString()}', height:100.h),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        '${centerList[index].name.toString()}',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
                     ),
-                    Text('${centerList[index].email.toString()}'),
                     SizedBox(
                       height: 9.h,
                     ),
-                    Text('${centerList[index].phoneNumber.toString()}'),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                          'رقم السجل: ${centerList[index].recordNumber.toString()}'),
+                    ),
+                    SizedBox(
+                      height: 9.h,
+                    ),
+                    FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                            'الهاتف: ${centerList[index].phoneNumber.toString()}')),
                     SizedBox(
                       height: 9.h,
                     ),
                     Container(
-                        height: 70.h,
-                        child: Text('${centerList[index].address.toString()}')),
+                        child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                                '${centerList[index].address.toString()}'))),
                     ConstrainedBox(
                       constraints:
                           BoxConstraints.tightFor(width: 90, height: 37.h),
@@ -99,15 +115,13 @@ class _UserCentersState extends State<UserCenters> {
                         style: ElevatedButton.styleFrom(
                             primary: HexColor('#ffba26')),
                         onPressed: () async {
-                          
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return UserService(
-                              centerName: '${centerList[index].name.toString()}',
-                              
+                              centerName:
+                                  '${centerList[index].name.toString()}',
                             );
                           }));
-                          
                         },
                         child: Text('الخدمات'),
                       ),
@@ -116,9 +130,9 @@ class _UserCentersState extends State<UserCenters> {
                 );
               },
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 28.0,
-              crossAxisSpacing: 5.0,
+                  new StaggeredTile.count(3, index.isEven ? 5 : 5),
+              mainAxisSpacing: 10.0.h,
+              crossAxisSpacing: 5.0.w,
             ),
           ),
         ),

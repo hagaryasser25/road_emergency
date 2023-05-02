@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:road_emergency/screens/user/user_center.dart';
+import 'package:road_emergency/screens/user/user_opinions.dart';
 
 import '../auth/login_page.dart';
 
@@ -107,6 +108,15 @@ class _UserHomeState extends State<UserHome> {
                                           context, UserCenters.routeName);
                                     },
                                     child: card('المراكز', '#ed872d')),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, UserOpinions.routeName);
+                                    },
+                                    child: card('اراء المستخدمين', '#e8b823')),
                                 SizedBox(
                                   width: 10.w,
                                 ),

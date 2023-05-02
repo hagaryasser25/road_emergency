@@ -9,6 +9,8 @@ class Centers {
     String? password,
     String? phoneNumber,
     String? uid,
+    String? imageUrl,
+    String? recordNumber,
   }) {
     _id = id;
     _address = address;
@@ -17,6 +19,8 @@ class Centers {
     _password = password;
     _phoneNumber = phoneNumber;
     _uid = uid;
+    _imageUrl = imageUrl;
+    _recordNumber = recordNumber;
   }
 
   Centers.fromJson(dynamic json) {
@@ -27,6 +31,8 @@ class Centers {
     _password = json['password'];
     _phoneNumber = json['phoneNumber'];
     _uid = json['uid'];
+    _imageUrl = json['imageUrl'];
+    _recordNumber = json['recordNumber'];
   }
 
   String? _id;
@@ -36,6 +42,8 @@ class Centers {
   String? _password;
   String? _phoneNumber;
   String? _uid;
+  String? _imageUrl;
+  String? _recordNumber;
 
   String? get id => _id;
   String? get address => _address;
@@ -44,6 +52,8 @@ class Centers {
   String? get password => _password;
   String? get phoneNumber => _phoneNumber;
   String? get uid => _uid;
+  String? get imageUrl => _imageUrl;
+  String? get recordNumber => _recordNumber;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -54,6 +64,8 @@ class Centers {
     map['password'] = _password;
     map['phoneNumber'] = _phoneNumber;
     map['uid'] = _uid;
+    map['imageUrl'] = _imageUrl;
+    map['recordNumber'] = _recordNumber;
 
     return map;
   }

@@ -75,6 +75,9 @@ class _CenterRequestsState extends State<CenterRequests> {
                             padding: const EdgeInsets.only(
                                 top: 10, right: 15, left: 15, bottom: 10),
                             child: Column(children: [
+                              Image.network(
+                                  '${requestsList[index].imageUrl.toString()}',
+                                  height: 150.h),
                               Align(
                                   alignment: Alignment.topRight,
                                   child: Text(
@@ -87,7 +90,7 @@ class _CenterRequestsState extends State<CenterRequests> {
                                     'رقم الهاتف : ${requestsList[index].userPhone.toString()}',
                                     style: TextStyle(fontSize: 17),
                                   )),
-                                  Align(
+                              Align(
                                   alignment: Alignment.topRight,
                                   child: Text(
                                     'العنوان الحالى : ${requestsList[index].address.toString()}',
@@ -131,7 +134,8 @@ class _CenterRequestsState extends State<CenterRequests> {
                                       .reference()
                                       .child('requests')
                                       .child('${widget.centerName}')
-                                      .child('${requestsList[index].id.toString()}')
+                                      .child(
+                                          '${requestsList[index].id.toString()}')
                                       .remove();
                                 },
                                 child: Icon(Icons.delete,

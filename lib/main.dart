@@ -13,10 +13,12 @@ import 'package:road_emergency/screens/centers/add_technical.dart';
 import 'package:road_emergency/screens/centers/center_home.dart';
 import 'package:road_emergency/screens/centers/center_service.dart';
 import 'package:road_emergency/screens/centers/center_technicals.dart';
+import 'package:road_emergency/screens/user/add_opinion.dart';
 import 'package:road_emergency/screens/user/user_center.dart';
 import 'package:road_emergency/screens/user/user_home.dart';
+import 'package:road_emergency/screens/user/user_opinions.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -50,18 +52,19 @@ class MyApp extends StatelessWidget {
                   ? const CenterHome()
                   : UserHome(),
       routes: {
-         SignUp.routeName: (ctx) => SignUp(),
-         UserLogin.routeName: (ctx) => UserLogin(),
-         AdminLogin.routeName: (ctx) => AdminLogin(),
-         CenterLogin.routeName: (ctx) => CenterLogin(),
-         AdminHome.routeName: (ctx) => AdminHome(),
-         CenterHome.routeName: (ctx) => CenterHome(),
-         AdminCenters.routeName: (ctx) => AdminCenters(),
-         AddCenters.routeName: (ctx) => AddCenters(),
-         UserHome.routeName: (ctx) => UserHome(),
-         UserCenters.routeName: (ctx) => UserCenters(),
+        SignUp.routeName: (ctx) => SignUp(),
+        UserLogin.routeName: (ctx) => UserLogin(),
+        AdminLogin.routeName: (ctx) => AdminLogin(),
+        CenterLogin.routeName: (ctx) => CenterLogin(),
+        AdminHome.routeName: (ctx) => AdminHome(),
+        CenterHome.routeName: (ctx) => CenterHome(),
+        AdminCenters.routeName: (ctx) => AdminCenters(),
+        AddCenters.routeName: (ctx) => AddCenters(),
+        UserHome.routeName: (ctx) => UserHome(),
+        UserCenters.routeName: (ctx) => UserCenters(),
+        UserOpinions.routeName: (ctx) => UserOpinions(),
+        AddOpinion.routeName: (ctx) => AddOpinion(),
       },
     );
   }
 }
-

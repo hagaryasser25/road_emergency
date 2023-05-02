@@ -10,6 +10,7 @@ class Requests {
     String? userName,
     String? userPhone,
     String? address,
+    String? imageUrl,
   }) {
     _id = id;
     _date = date;
@@ -19,6 +20,7 @@ class Requests {
     _userName = userName;
     _userPhone = userPhone;
     _address = address;
+    _imageUrl = imageUrl;
   }
 
   Requests.fromJson(dynamic json) {
@@ -30,6 +32,7 @@ class Requests {
     _userName = json['userName'];
     _userPhone = json['userPhone'];
     _address = json['address'];
+    _imageUrl = json['imageUrl'];
   }
 
   String? _id;
@@ -40,6 +43,7 @@ class Requests {
   String? _userName;
   String? _userPhone;
   String? _address;
+  String? _imageUrl;
 
   String? get id => _id;
   String? get date => _date;
@@ -49,6 +53,7 @@ class Requests {
   String? get userName => _userName;
   String? get userPhone => _userPhone;
   String? get address => _address;
+  String? get imageUrl => _imageUrl;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -60,6 +65,7 @@ class Requests {
     map['userName'] = _userName;
     map['userPhone'] = _userPhone;
     map['address'] = _address;
+    map['imageUrl'] = _imageUrl;
 
     return map;
   }

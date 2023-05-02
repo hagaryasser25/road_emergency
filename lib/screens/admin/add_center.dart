@@ -28,6 +28,31 @@ class _AddCentersState extends State<AddCenters> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var phoneNumberController = TextEditingController();
+  var numberController = TextEditingController();
+
+  String imageUrl = '';
+  File? image;
+
+  Future pickImageFromDevice() async {
+    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (xFile == null) return;
+    final tempImage = File(xFile.path);
+    setState(() {
+      image = tempImage;
+      print(image!.path);
+    });
+
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+    Reference refrenceImageToUpload = referenceDirImages.child(uniqueFileName);
+    try {
+      await refrenceImageToUpload.putFile(File(xFile.path));
+
+      imageUrl = await refrenceImageToUpload.getDownloadURL();
+    } catch (error) {}
+    print(imageUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +70,164 @@ class _AddCentersState extends State<AddCenters> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Image.asset(
-                      'assets/images/logo.jfif',
-                      height: 180.h,
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text('صورة السجل'),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 30),
+                              child: CircleAvatar(
+                                radius: 65,
+                                backgroundColor:
+                                    Color.fromARGB(255, 235, 234, 234),
+                                backgroundImage:
+                                    image == null ? null : FileImage(image!),
+                              )),
+                          Positioned(
+                              top: 120,
+                              left: 120,
+                              child: SizedBox(
+                                width: 50,
+                                child: RawMaterialButton(
+                                    // constraints: BoxConstraints.tight(const Size(45, 45)),
+                                    elevation: 10,
+                                    fillColor: Colors.red,
+                                    child: const Align(
+                                        // ignore: unnecessary_const
+                                        child: Icon(Icons.add_a_photo,
+                                            color: Colors.white, size: 22)),
+                                    padding: const EdgeInsets.all(15),
+                                    shape: const CircleBorder(),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Choose option',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.red)),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: [
+                                                    InkWell(
+                                                        onTap: () {
+                                                          pickImageFromDevice();
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons.image,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Gallery',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        )),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          // pickImageFromCamera();
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons.camera,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Camera',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        )),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons
+                                                                      .remove_circle,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Remove',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        ))
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    }),
+                              )),
+                        ],
+                      ),
+                    ),
+                       SizedBox(
+                      height: 20.h,
+                    ),
+                    SizedBox(
+                      height: 65.h,
+                      child: TextField(
+                        controller: numberController,
+                        decoration: InputDecoration(
+                          fillColor: HexColor('#155564'),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
+                          ),
+                          border: OutlineInputBorder(),
+                          hintText: 'رقم السجل',
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -59,8 +239,8 @@ class _AddCentersState extends State<AddCenters> {
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'الأسم',
@@ -75,8 +255,8 @@ class _AddCentersState extends State<AddCenters> {
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'العنوان',
@@ -91,8 +271,8 @@ class _AddCentersState extends State<AddCenters> {
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'البريد الالكترونى',
@@ -109,8 +289,8 @@ class _AddCentersState extends State<AddCenters> {
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'كلمة المرور',
@@ -127,8 +307,8 @@ class _AddCentersState extends State<AddCenters> {
                         decoration: InputDecoration(
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.red, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'رقم الهاتف',
@@ -153,12 +333,13 @@ class _AddCentersState extends State<AddCenters> {
                           String phoneNumber =
                               phoneNumberController.text.trim();
                           String password = passwordController.text.trim();
+                          String number = numberController.text.trim();
 
                           if (name.isEmpty ||
                               email.isEmpty ||
                               password.isEmpty ||
                               phoneNumber.isEmpty ||
-                              address.isEmpty) {
+                              address.isEmpty || imageUrl.isEmpty) {
                             CherryToast.info(
                               title: Text('Please Fill all Fields'),
                               actionHandler: () {},
@@ -212,11 +393,11 @@ class _AddCentersState extends State<AddCenters> {
                                 'uid': uid,
                                 'phoneNumber': phoneNumber,
                                 'id': id,
-
-                                
+                                'imageUrl': imageUrl,
+                                'recordNumber': number,
                               });
 
-                               DatabaseReference centerRef = FirebaseDatabase
+                              DatabaseReference centerRef = FirebaseDatabase
                                   .instance
                                   .reference()
                                   .child('users');
@@ -229,7 +410,7 @@ class _AddCentersState extends State<AddCenters> {
                                 'dt': dt,
                                 'phoneNumber': phoneNumber,
                               });
-                              
+
                               FirebaseAuth.instance.signOut();
                               Navigator.canPop(context)
                                   ? Navigator.pop(context)
@@ -264,6 +445,9 @@ class _AddCentersState extends State<AddCenters> {
                         },
                         child: Text('حفظ'),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

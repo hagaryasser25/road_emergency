@@ -19,12 +19,13 @@ class SendRequest extends StatefulWidget {
   String centerName;
   String serviceName;
   String technicalName;
+  String technicalPhone;
   static const routeName = '/sendRequest';
-   SendRequest({
-    required this.centerName,
-    required this.serviceName,
-    required this.technicalName
-   });
+  SendRequest(
+      {required this.centerName,
+      required this.serviceName,
+      required this.technicalName,
+      required this.technicalPhone});
 
   @override
   State<SendRequest> createState() => _SendRequestState();
@@ -34,7 +35,7 @@ class _SendRequestState extends State<SendRequest> {
   var dateController = TextEditingController();
   var addressController = TextEditingController();
   var descriptionController = TextEditingController();
-    late DatabaseReference base;
+  late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
   late Users currentUser;
@@ -63,6 +64,30 @@ class _SendRequestState extends State<SendRequest> {
     });
   }
 
+  String imageUrl = '';
+  File? image;
+
+  Future pickImageFromDevice() async {
+    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (xFile == null) return;
+    final tempImage = File(xFile.path);
+    setState(() {
+      image = tempImage;
+      print(image!.path);
+    });
+
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+    Reference refrenceImageToUpload = referenceDirImages.child(uniqueFileName);
+    try {
+      await refrenceImageToUpload.putFile(File(xFile.path));
+
+      imageUrl = await refrenceImageToUpload.getDownloadURL();
+    } catch (error) {}
+    print(imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -79,9 +104,146 @@ class _SendRequestState extends State<SendRequest> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Image.asset(
-                      'assets/images/logo.jfif',
-                      height: 180.h,
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text('صورة البطاقة'),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Stack(
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 30),
+                              child: CircleAvatar(
+                                radius: 65,
+                                backgroundColor:
+                                    Color.fromARGB(255, 235, 234, 234),
+                                backgroundImage:
+                                    image == null ? null : FileImage(image!),
+                              )),
+                          Positioned(
+                              top: 120,
+                              left: 120,
+                              child: SizedBox(
+                                width: 50,
+                                child: RawMaterialButton(
+                                    // constraints: BoxConstraints.tight(const Size(45, 45)),
+                                    elevation: 10,
+                                    fillColor: Colors.red,
+                                    child: const Align(
+                                        // ignore: unnecessary_const
+                                        child: Icon(Icons.add_a_photo,
+                                            color: Colors.white, size: 22)),
+                                    padding: const EdgeInsets.all(15),
+                                    shape: const CircleBorder(),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Choose option',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.red)),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: [
+                                                    InkWell(
+                                                        onTap: () {
+                                                          pickImageFromDevice();
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons.image,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Gallery',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        )),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          // pickImageFromCamera();
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons.camera,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Camera',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        )),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
+                                                        },
+                                                        splashColor:
+                                                            HexColor('#FA8072'),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Icon(
+                                                                  Icons
+                                                                      .remove_circle,
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                            Text('Remove',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ))
+                                                          ],
+                                                        ))
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    }),
+                              )),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -150,10 +312,12 @@ class _SendRequestState extends State<SendRequest> {
                           String date = dateController.text.trim();
                           String description =
                               descriptionController.text.trim();
-                              String address =
-                              addressController.text.trim();
+                          String address = addressController.text.trim();
 
-                          if (date.isEmpty || description.isEmpty || address.isEmpty) {
+                          if (date.isEmpty ||
+                              description.isEmpty ||
+                              address.isEmpty ||
+                              imageUrl.isEmpty) {
                             CherryToast.info(
                               title: Text('ادخل جميع الحقول'),
                               actionHandler: () {},
@@ -177,15 +341,49 @@ class _SendRequestState extends State<SendRequest> {
                             await companyRef.child(id!).set({
                               'id': id,
                               'date': date,
-                              'description':description,
+                              'description': description,
                               'address': address,
                               'serviceName': widget.serviceName,
                               'technicalName': widget.technicalName,
                               'userName': currentUser.fullName,
                               'userPhone': currentUser.phoneNumber,
+                              'imageUrl': imageUrl,
                             });
                           }
-                          showAlertDialog(context);
+                          Widget remindButton = TextButton(
+                            style: TextButton.styleFrom(
+                              primary: HexColor('#6bbcba'),
+                            ),
+                            child: Text("Ok"),
+                            onPressed: () {
+                              Navigator.pushNamed(context, UserHome.routeName);
+                            },
+                          );
+
+                          // set up the AlertDialog
+                          AlertDialog alert = AlertDialog(
+                            title: Text("Notice"),
+                            content: Container(
+                              height: 100.h,
+                              child: Column(
+                                children: [
+                                  Text("تم ارسال الطلب"),
+                                  Text("رقم هاتف الفنى: ${widget.technicalPhone}")
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              remindButton,
+                            ],
+                          );
+
+                          // show the dialog
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return alert;
+                            },
+                          );
                         },
                         child: Text('حفظ'),
                       ),
@@ -201,31 +399,3 @@ class _SendRequestState extends State<SendRequest> {
   }
 }
 
-void showAlertDialog(BuildContext context) {
-  Widget remindButton = TextButton(
-    style: TextButton.styleFrom(
-      primary: HexColor('#6bbcba'),
-    ),
-    child: Text("Ok"),
-    onPressed: () {
-      Navigator.pushNamed(context, UserHome.routeName);
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Notice"),
-    content: Text("تم ارسال الطلب"),
-    actions: [
-      remindButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}

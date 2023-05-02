@@ -116,6 +116,7 @@ class _UserTechnicalState extends State<UserTechnical> {
                               centerName: widget.centerName,
                               serviceName: widget.serviceName,
                               technicalName: '${technicalList[index].name.toString()}',
+                              technicalPhone: '${technicalList[index].phoneNumber.toString()}',
                             );
                           }));
                         },

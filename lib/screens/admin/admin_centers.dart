@@ -90,26 +90,50 @@ class _AdminCentersState extends State<AdminCenters> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Column(children: [
-                    Text(
-                      '${centerList[index].name.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    CircleAvatar(
+                      radius: 37,
+                      backgroundImage: NetworkImage(
+                          '${centerList[index].imageUrl.toString()}'),
                     ),
-                    Text('${centerList[index].email.toString()}'),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        '${centerList[index].name.toString()}',
+                        style:
+                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text('${centerList[index].email.toString()}')),
                     SizedBox(
                       height: 9.h,
                     ),
-                    Text('${centerList[index].password.toString()}'),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                          'كلمة المرور: ${centerList[index].password.toString()}'),
+                    ),
+                                        SizedBox(
+                      height: 9.h,
+                    ),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                          'رقم السجل: ${centerList[index].recordNumber.toString()}'),
+                    ),
                     SizedBox(
                       height: 9.h,
                     ),
-                    Text('${centerList[index].phoneNumber.toString()}'),
+                    FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                            'الهاتف: ${centerList[index].phoneNumber.toString()}')),
                     SizedBox(
                       height: 9.h,
                     ),
                     Container(
-                      height: 70.h,
-                      child: Text('${centerList[index].address.toString()}')),
+                        child: Text('${centerList[index].address.toString()}')),
                     InkWell(
                       onTap: () async {
                         Navigator.pushReplacement(
@@ -117,7 +141,9 @@ class _AdminCentersState extends State<AdminCenters> {
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     super.widget));
-                        FirebaseDatabase.instance.reference().child('centers')
+                        FirebaseDatabase.instance
+                            .reference()
+                            .child('centers')
                             .child('${centerList[index].id}')
                             .remove();
                       },
@@ -128,9 +154,9 @@ class _AdminCentersState extends State<AdminCenters> {
                 );
               },
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 30.0,
-              crossAxisSpacing: 5.0,
+                  new StaggeredTile.count(3, index.isEven ? 5 : 5),
+              mainAxisSpacing: 10.0.h,
+              crossAxisSpacing: 5.0.w,
             ),
           ),
         ),
