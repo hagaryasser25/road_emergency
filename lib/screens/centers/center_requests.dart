@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -24,6 +26,7 @@ class _CenterRequestsState extends State<CenterRequests> {
   late FirebaseApp app;
   List<Requests> requestsList = [];
   List<String> keyslist = [];
+  String request = 'false';
 
   @override
   void didChangeDependencies() {
@@ -123,24 +126,114 @@ class _CenterRequestsState extends State<CenterRequests> {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              super.widget));
-                                  FirebaseDatabase.instance
-                                      .reference()
-                                      .child('requests')
-                                      .child('${widget.centerName}')
-                                      .child(
-                                          '${requestsList[index].id.toString()}')
-                                      .remove();
-                                },
-                                child: Icon(Icons.delete,
-                                    color: Color.fromARGB(255, 122, 122, 122)),
-                              )
+                              requestsList[index].request == 'false'
+                                  ? Row(
+                                      children: [
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints.tightFor(
+                                              width: 120.w, height: 35.h),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.red,
+                                            ),
+                                            child: Text('تأكيد الطلب'),
+                                            onPressed: () async {
+                                              User? user = FirebaseAuth
+                                                  .instance.currentUser;
+
+                                              if (user != null) {
+                                                String uid = user.uid;
+                                                int date = DateTime.now()
+                                                    .millisecondsSinceEpoch;
+
+                                                DatabaseReference companyRef =
+                                                    FirebaseDatabase.instance
+                                                        .reference()
+                                                        .child('requests')
+                                                        .child(
+                                                            '${widget.centerName}')
+                                                        .child(
+                                                            '${requestsList[index].id.toString()}');
+
+                                                await companyRef.update({
+                                                  'request': 'true',
+                                                });
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        
+                                                        content: Text(
+                                                            'تم تأكيد الطلب'),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(context);
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  super
+                                                                      .widget));
+                                                            },
+                                                            child: Text("حسنا"),
+                                                          ),
+                                                          
+                                                        ],
+                                                      );
+                                                    });
+                                               
+                                                
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 100.w,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        super.widget));
+                                            FirebaseDatabase.instance
+                                                .reference()
+                                                .child('requests')
+                                                .child('${widget.centerName}')
+                                                .child(
+                                                    '${requestsList[index].id.toString()}')
+                                                .remove();
+                                          },
+                                          child: Icon(Icons.delete,
+                                              color: Color.fromARGB(
+                                                  255, 122, 122, 122)),
+                                        )
+                                      ],
+                                    )
+                                  : InkWell(
+                                      onTap: () async {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        super.widget));
+                                        FirebaseDatabase.instance
+                                            .reference()
+                                            .child('requests')
+                                            .child('${widget.centerName}')
+                                            .child(
+                                                '${requestsList[index].id.toString()}')
+                                            .remove();
+                                      },
+                                      child: Icon(Icons.delete,
+                                          color: Color.fromARGB(
+                                              255, 122, 122, 122)),
+                                    )
                             ]),
                           ),
                         ),

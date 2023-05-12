@@ -348,6 +348,7 @@ class _SendRequestState extends State<SendRequest> {
                               'userName': currentUser.fullName,
                               'userPhone': currentUser.phoneNumber,
                               'imageUrl': imageUrl,
+                              'request': 'false',
                             });
                           }
                           Widget remindButton = TextButton(
