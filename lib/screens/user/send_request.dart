@@ -40,11 +40,13 @@ class _SendRequestState extends State<SendRequest> {
   late FirebaseApp app;
   late Users currentUser;
 
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     getUserData();
   }
 
+  @override
   void initState() {
     getUserData();
     super.initState();
@@ -61,6 +63,7 @@ class _SendRequestState extends State<SendRequest> {
     final snapshot = await base.get();
     setState(() {
       currentUser = Users.fromSnapshot(snapshot);
+      print(currentUser.fullName);
     });
   }
 
@@ -369,7 +372,8 @@ class _SendRequestState extends State<SendRequest> {
                               child: Column(
                                 children: [
                                   Text("تم ارسال الطلب"),
-                                  Text("رقم هاتف الفنى: ${widget.technicalPhone}")
+                                  Text(
+                                      "رقم هاتف الفنى: ${widget.technicalPhone}")
                                 ],
                               ),
                             ),
@@ -399,4 +403,3 @@ class _SendRequestState extends State<SendRequest> {
     );
   }
 }
-

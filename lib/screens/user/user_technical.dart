@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,9 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:road_emergency/screens/centers/add_technical.dart';
 import 'package:road_emergency/screens/models/technical_model.dart';
+import 'package:road_emergency/screens/user/send_complain.dart';
 import 'package:road_emergency/screens/user/send_request.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+
+import '../models/user_model.dart';
 
 class UserTechnical extends StatefulWidget {
   String centerName;
@@ -27,13 +31,14 @@ class _UserTechnicalState extends State<UserTechnical> {
   late FirebaseApp app;
   List<Technical> technicalList = [];
   List<String> keyslist = [];
+  late Users currentUser;
 
   void didChangeDependencies() {
     super.didChangeDependencies();
     fetchTechnicals();
   }
 
-  @override
+
   void fetchTechnicals() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
@@ -51,6 +56,7 @@ class _UserTechnicalState extends State<UserTechnical> {
       setState(() {});
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +85,7 @@ class _UserTechnicalState extends State<UserTechnical> {
                   child: Column(children: [
                     Padding(
                       padding: EdgeInsets.only(
-                        top: 10.h,
+                        top: 1.h,
                       ),
                       child: CircleAvatar(
                         radius: 37,
@@ -87,10 +93,13 @@ class _UserTechnicalState extends State<UserTechnical> {
                             '${technicalList[index].imageUrl.toString()}'),
                       ),
                     ),
-                    Text(
-                      '${technicalList[index].name.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        '${technicalList[index].name.toString()}',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
                     ),
                     Text('${technicalList[index].phoneNumber.toString()}'),
                     SizedBox(
@@ -98,14 +107,17 @@ class _UserTechnicalState extends State<UserTechnical> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                      child: Text('${technicalList[index].exp.toString()}'),
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child:
+                              Text('${technicalList[index].exp.toString()}')),
                     ),
                     SizedBox(
                       height: 5.h,
                     ),
                     ConstrainedBox(
                       constraints:
-                          BoxConstraints.tightFor(width: 90, height: 37.h),
+                          BoxConstraints.tightFor(width: 100, height: 37.h),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: HexColor('#ffba26')),
@@ -115,20 +127,40 @@ class _UserTechnicalState extends State<UserTechnical> {
                             return SendRequest(
                               centerName: widget.centerName,
                               serviceName: widget.serviceName,
-                              technicalName: '${technicalList[index].name.toString()}',
-                              technicalPhone: '${technicalList[index].phoneNumber.toString()}',
+                              technicalName:
+                                  '${technicalList[index].name.toString()}',
+                              technicalPhone:
+                                  '${technicalList[index].phoneNumber.toString()}',
                             );
                           }));
                         },
                         child: Text('ارسال طلب'),
                       ),
                     ),
+                    SizedBox(height: 5.h),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints.tightFor(width: 100, height: 37.h),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: HexColor('#ffba26')),
+                        onPressed: () async {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return SendComplain(
+                              centerName: widget.centerName,
+                            );
+                          }));
+                        },
+                        child: Text('ارسال شكوى'),
+                      ),
+                    ),
                   ]),
                 );
               },
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 40.0,
+                  new StaggeredTile.count(3, index.isEven ? 4 : 4),
+              mainAxisSpacing: 10.0,
               crossAxisSpacing: 5.0,
             ),
           ),

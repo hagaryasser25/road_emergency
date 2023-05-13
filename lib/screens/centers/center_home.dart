@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:road_emergency/screens/centers/center_complain.dart';
 import 'package:road_emergency/screens/centers/center_requests.dart';
 import 'package:road_emergency/screens/centers/center_service.dart';
 
@@ -155,6 +156,19 @@ class _CenterHomeState extends State<CenterHome> {
                                       }));
                                     },
                                     child: card('طلبات الخدمات', '#e8b823')),
+                                    InkWell(
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return AdminComplain(
+                                          centerName: '${currentUser.fullName}',
+                                        );
+                                      }));
+                                    },
+                                    child: card('الشكاوى', '#ed872d')),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
                               ],
                             ),
                           ),
