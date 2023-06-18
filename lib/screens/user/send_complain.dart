@@ -73,8 +73,17 @@ class _SendComplainState extends State<SendComplain> {
               child: Center(
                 child: Column(
                   children: [
-                     SizedBox(height: 20.h),
-                     Image.asset('assets/images/logo.jfif'),
+                      Padding(
+                      padding: EdgeInsets.only(top: 70.h),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage('assets/images/logo.jpg'),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 20.h),
                     SizedBox(
                       height: 150.h,
@@ -87,7 +96,7 @@ class _SendComplainState extends State<SendComplain> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.red,
+                                color: Colors.blue,
                                 width: 2.0),
                           ),
                           border: OutlineInputBorder(),
@@ -101,7 +110,7 @@ class _SendComplainState extends State<SendComplain> {
                           width: double.infinity, height: 65.h),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          primary: Colors.blue,
                         ),
                         onPressed: () async {
                           String description =

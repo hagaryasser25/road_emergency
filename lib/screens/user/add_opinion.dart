@@ -34,7 +34,17 @@ class _AddOpinionState extends State<AddOpinion> {
               padding: EdgeInsets.only(right: 10.w, left: 10.w),
               child: Column(
                 children: [
-                  Image.asset('assets/images/logo.jfif'),
+                  Padding(
+                      padding: EdgeInsets.only(top: 70.h),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage('assets/images/logo.jpg'),
+                        ),
+                      ),
+                    ),
                   SizedBox(
                     height: 30.h,
                   ),
@@ -45,7 +55,7 @@ class _AddOpinionState extends State<AddOpinion> {
                         fillColor: HexColor('#155564'),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: HexColor('#b4a7d6'), width: 2.0),
+                              color: Colors.blue, width: 2.0),
                         ),
                         border: OutlineInputBorder(),
                         hintText: 'الأسم',
@@ -66,7 +76,7 @@ class _AddOpinionState extends State<AddOpinion> {
                         fillColor: HexColor('#155564'),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: HexColor('#b4a7d6'), width: 2.0),
+                              color: Colors.blue, width: 2.0),
                         ),
                         border: OutlineInputBorder(),
                         hintText: 'رايك',
@@ -82,7 +92,7 @@ class _AddOpinionState extends State<AddOpinion> {
                         width: double.infinity, height: 65.h),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        primary: Colors.blue,
                       ),
                       onPressed: () async {
                         String status = statusController.text.trim();

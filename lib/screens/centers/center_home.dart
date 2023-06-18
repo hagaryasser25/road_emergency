@@ -11,6 +11,7 @@ import 'package:road_emergency/screens/centers/center_complain.dart';
 import 'package:road_emergency/screens/centers/center_requests.dart';
 import 'package:road_emergency/screens/centers/center_service.dart';
 
+import '../admin/admin_centers.dart';
 import '../auth/login_page.dart';
 import '../models/user_model.dart';
 
@@ -59,15 +60,309 @@ class _CenterHomeState extends State<CenterHome> {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
-          appBar: AppBar(
-              backgroundColor: Colors.red,
-              title: Center(child: Text('الصفحة الرئيسية'))),
           body: Column(
             children: [
-              Image.asset(
-                'assets/images/logo.jfif',
-                height: 180.h,
+              Container(
+                height: 150.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [.01, .25],
+                    colors: [
+                      Colors.blue,
+                      Color.fromRGBO(124, 180, 226, 1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20.w),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            backgroundImage:
+                                AssetImage('assets/images/logo.jpg'),
+                          ),
+                          SizedBox(
+                            width: 250.w,
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.blue, //<-- SEE HERE
+                            child: IconButton(
+                              icon: Center(
+                                child: Icon(
+                                  Icons.logout,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('تأكيد'),
+                                        content: Text(
+                                            'هل انت متأكد من تسجيل الخروج'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              FirebaseAuth.instance.signOut();
+                                              Navigator.pushNamed(
+                                                  context, UserLogin.routeName);
+                                            },
+                                            child: Text('نعم'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('لا'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'الصفحة الرئيسية',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
+              Image.asset(
+                'assets/images/admin.jpg',
+                height: 200.h,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 30.w),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CenterService(
+                            centerName: '${currentUser.fullName}',
+                          );
+                        }));
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/service.png',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  "اضافة خدمة",
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CenterRequests(
+                            centerName: '${currentUser.fullName}',
+                          );
+                        }));
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/request.png',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  'طلبات الخدمات',
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 30.w),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AdminComplain(
+                            centerName: '${currentUser.fullName}',
+                          );
+                        }));
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/complain.png',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  "الشكاوى",
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('تأكيد'),
+                                content: Text('هل انت متأكد من تسجيل الخروج'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      FirebaseAuth.instance.signOut();
+                                      Navigator.pushNamed(
+                                          context, UserLogin.routeName);
+                                    },
+                                    child: Text('نعم'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('لا'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/logout2.png',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  'تسجيل الخروج',
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              /*
               Expanded(
                 child: Container(
                   height: double.infinity,
@@ -156,7 +451,7 @@ class _CenterHomeState extends State<CenterHome> {
                                       }));
                                     },
                                     child: card('طلبات الخدمات', '#e8b823')),
-                                    InkWell(
+                                InkWell(
                                     onTap: () {
                                       Navigator.push(context,
                                           MaterialPageRoute(builder: (context) {
@@ -178,6 +473,7 @@ class _CenterHomeState extends State<CenterHome> {
                   ),
                 ),
               ),
+              */
             ],
           ),
         ),

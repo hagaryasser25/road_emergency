@@ -1,29 +1,56 @@
-import 'package:cherry_toast/cherry_toast.dart';
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:ndialog/ndialog.dart';
 
+import '../components/my_button.dart';
+import '../components/my_textfield.dart';
+
+
 class SignUp extends StatefulWidget {
-  static const routeName = '/signupPage';
-  const SignUp({super.key});
+  static const routeName = '/signUp';
+  SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  var passwordController = TextEditingController();
-  var emailController = TextEditingController();
+  // text editing controllers
+  final passwordController = TextEditingController();
+
+  final emailController = TextEditingController();
+
   var phoneNumberController = TextEditingController();
   var nameController = TextEditingController();
-  var iDController = TextEditingController();
+
+  double _sigmaX = 5;
+  // from 0-10
+  double _sigmaY = 5;
+  // from 0-10
+  double _opacity = 0.2;
+
+  double _width = 350;
+
+  double _height = 300;
+
+  final _formKey = GlobalKey<FormState>();
+
+  // sign user in method
+  void signUserIn() {
+    if (_formKey.currentState!.validate()) {
+      print('valid');
+    } else {
+      print('not valid');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -31,362 +58,282 @@ class _SignUpState extends State<SignUp> {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
-          body: Container(
-            child: Column(children: [
-              Image.asset(
-                'assets/images/em.jfif',
-              ),
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
+          backgroundColor: Colors.grey[300],
+          body: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/b.png',
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    fit: BoxFit.cover,
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                          height: 15.h,
-                        ),
-                        Text(
-                          'انشاء حساب',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'ElMessiri',
-                              fontWeight: FontWeight.w600),
-                        ),
-                          SizedBox(
-                          height: 15.h,
-                        ),
-                          SizedBox(
-                            height: 65.h,
-                            child: TextField(
-                              style: TextStyle(color: Colors.black),
-                              controller: nameController,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.text_fields,
-                                  color: Colors.red,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                      width: 1.0, color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(),
-                                hintText: 'الأسم',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Cairo',
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          SizedBox(
-                            height: 65.h,
-                            child: TextField(
-                              style: TextStyle(color: Colors.black),
-                              controller: phoneNumberController,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.phone,
-                                  color: Colors.red,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                      width: 1.0, color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(),
-                                hintText: 'رقم الهاتف',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Cairo',
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          SizedBox(
-                            height: 65.h,
-                            child: TextField(
-                              style: TextStyle(color: Colors.black),
-                              controller: iDController,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.phone,
-                                  color: Colors.red,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                      width: 1.0, color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(),
-                                hintText: 'الرقم القومى',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Cairo',
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          SizedBox(
-                            height: 65.h,
-                            child: TextField(
-                              style: TextStyle(color: Colors.black),
-                              controller: emailController,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.red,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: BorderSide(
-                                      width: 1.0, color: Colors.red),
-                                ),
-                                border: OutlineInputBorder(),
-                                hintText: 'البريد الألكترونى',
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Cairo',
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          SizedBox(
-                            height: 65.h,
-                            child: TextField(
-                              style: TextStyle(color: Colors.black),
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.password,
-                                    color: Colors.red,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    borderSide: BorderSide(
-                                        width: 1.0, color: Colors.red),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    borderSide: BorderSide(
-                                        width: 1.0, color: Colors.red),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                  hintText: 'كلمة المرور',
-                                  hintStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Cairo',
-                                  )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tightFor(
-                                width: 200.w, height: 50.h),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(25), // <-- Radius
-                                ),
-                              ),
-                              child: Text(
-                                'انشاء حساب',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  fontFamily: 'Marhey',
-                                ),
-                              ),
-                              onPressed: () async {
-                                var name = nameController.text.trim();
-                                var phoneNumber =
-                                    phoneNumberController.text.trim();
-                                var email = emailController.text.trim();
-                                var password = passwordController.text.trim();
-                                var iD = iDController.text.trim();
-
-                                if (name.isEmpty ||
-                                    email.isEmpty ||
-                                    password.isEmpty ||
-                                    phoneNumber.isEmpty ||
-                                    iD.isEmpty) {
-                                  MotionToast(
-                                          primaryColor: Colors.blue,
-                                          width: 300,
-                                          height: 50,
-                                          position: MotionToastPosition.center,
-                                          description:
-                                              Text("please fill all fields"))
-                                      .show(context);
-
-                                  return;
-                                }
-
-                                if (password.length < 6) {
-                                  // show error toast
-                                  MotionToast(
-                                          primaryColor: Colors.blue,
-                                          width: 300,
-                                          height: 50,
-                                          position: MotionToastPosition.center,
-                                          description: Text(
-                                              "Weak Password, at least 6 characters are required"))
-                                      .show(context);
-
-                                  return;
-                                }
-
-                                ProgressDialog progressDialog = ProgressDialog(
-                                    context,
-                                    title: Text('Signing Up'),
-                                    message: Text('Please Wait'));
-                                progressDialog.show();
-
-                                try {
-                                  FirebaseAuth auth = FirebaseAuth.instance;
-
-                                  UserCredential userCredential =
-                                      await auth.createUserWithEmailAndPassword(
-                                    email: email,
-                                    password: password,
-                                  );
-                                  User? user = userCredential.user;
-
-                                  if (userCredential.user != null) {
-                                    DatabaseReference userRef = FirebaseDatabase
-                                        .instance
-                                        .reference()
-                                        .child('users');
-
-                                    String uid = userCredential.user!.uid;
-                                    int dt =
-                                        DateTime.now().millisecondsSinceEpoch;
-
-                                    await userRef.child(uid).set({
-                                      'name': name,
-                                      'email': email,
-                                      'password': password,
-                                      'uid': uid,
-                                      'dt': dt,
-                                      'iD': iD,
-                                      'phoneNumber': phoneNumber,
-                                    });
-
-                                    Navigator.canPop(context)
-                                        ? Navigator.pop(context)
-                                        : null;
-                                  } else {
-                                    MotionToast(
-                                            primaryColor: Colors.blue,
-                                            width: 300,
-                                            height: 50,
-                                            position:
-                                                MotionToastPosition.center,
-                                            description: Text("failed"))
-                                        .show(context);
-                                  }
-                                  progressDialog.dismiss();
-                                } on FirebaseAuthException catch (e) {
-                                  progressDialog.dismiss();
-                                  if (e.code == 'email-already-in-use') {
-                                    MotionToast(
-                                            primaryColor: Colors.blue,
-                                            width: 300,
-                                            height: 50,
-                                            position:
-                                                MotionToastPosition.center,
-                                            description:
-                                                Text("email is already exist"))
-                                        .show(context);
-                                  } else if (e.code == 'weak-password') {
-                                    MotionToast(
-                                            primaryColor: Colors.blue,
-                                            width: 300,
-                                            height: 50,
-                                            position:
-                                                MotionToastPosition.center,
-                                            description:
-                                                Text("password is weak"))
-                                        .show(context);
-                                  }
-                                } catch (e) {
-                                  progressDialog.dismiss();
-                                  MotionToast(
-                                          primaryColor: Colors.blue,
-                                          width: 300,
-                                          height: 50,
-                                          position: MotionToastPosition.center,
-                                          description:
-                                              Text("something went wrong"))
-                                      .show(context);
-                                }
-                              },
-                            ),
-                          ),
-                        ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
-                  ),
-                ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.26),
+                      Padding(
+                        padding: EdgeInsets.only(right: 75.w),
+                        child: const Text("انشاء حساب",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02),
+                      ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                              sigmaX: _sigmaX, sigmaY: _sigmaY),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(0, 0, 0, 1)
+                                    .withOpacity(_opacity),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(30))),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.53,
+                            child: Form(
+                              key: _formKey,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    SizedBox(
+                                      height: 65.h,
+                                      child: MyTextField(
+                                        controller: nameController,
+                                        hintText: 'الأسم',
+                                        obscureText: false,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      height: 65.h,
+                                      child: MyTextField(
+                                        controller: phoneNumberController,
+                                        hintText: 'رقم الهاتف',
+                                        obscureText: false,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      height: 65.h,
+                                      child: MyTextField(
+                                        controller: emailController,
+                                        hintText: 'البريد الألكترونى',
+                                        obscureText: false,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    SizedBox(
+                                      height: 65.h,
+                                      child: MyPasswordTextField(
+                                        controller: passwordController,
+                                        hintText: 'كلمة المرور',
+                                        obscureText: true,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        SizedBox(
+                                          height: 60.h,
+                                          child: MyButtonAgree(
+                                            text: "انشاء حساب",
+                                            onTap: () async {
+                                              var name =
+                                                  nameController.text.trim();
+                                              var phoneNumber =
+                                                  phoneNumberController.text
+                                                      .trim();
+                                              var email =
+                                                  emailController.text.trim();
+                                              var password = passwordController
+                                                  .text
+                                                  .trim();
+
+                                              if (name.isEmpty ||
+                                                  email.isEmpty ||
+                                                  password.isEmpty ||
+                                                  phoneNumber.isEmpty) {
+                                                MotionToast(
+                                                        primaryColor:
+                                                            Colors.blue,
+                                                        width: 300,
+                                                        height: 50,
+                                                        position:
+                                                            MotionToastPosition
+                                                                .center,
+                                                        description: Text(
+                                                            "please fill all fields"))
+                                                    .show(context);
+
+                                                return;
+                                              }
+
+                                              if (password.length < 6) {
+                                                // show error toast
+                                                MotionToast(
+                                                        primaryColor:
+                                                            Colors.blue,
+                                                        width: 300,
+                                                        height: 50,
+                                                        position:
+                                                            MotionToastPosition
+                                                                .center,
+                                                        description: Text(
+                                                            "Weak Password, at least 6 characters are required"))
+                                                    .show(context);
+
+                                                return;
+                                              }
+
+                                              ProgressDialog progressDialog =
+                                                  ProgressDialog(context,
+                                                      title: Text('Signing Up'),
+                                                      message:
+                                                          Text('Please Wait'));
+                                              progressDialog.show();
+
+                                              try {
+                                                FirebaseAuth auth =
+                                                    FirebaseAuth.instance;
+
+                                                UserCredential userCredential =
+                                                    await auth
+                                                        .createUserWithEmailAndPassword(
+                                                  email: email,
+                                                  password: password,
+                                                );
+                                                User? user =
+                                                    userCredential.user;
+
+                                                if (userCredential.user !=
+                                                    null) {
+                                                  DatabaseReference userRef =
+                                                      FirebaseDatabase.instance
+                                                          .reference()
+                                                          .child('users');
+
+                                                  String uid =
+                                                      userCredential.user!.uid;
+                                                  int dt = DateTime.now()
+                                                      .millisecondsSinceEpoch;
+
+                                                  await userRef.child(uid).set({
+                                                    'name': name,
+                                                    'email': email,
+                                                    'password': password,
+                                                    'uid': uid,
+                                                    'dt': dt,
+                                                    'phoneNumber': phoneNumber,
+                                                  });
+
+                                                  Navigator.canPop(context)
+                                                      ? Navigator.pop(context)
+                                                      : null;
+                                                } else {
+                                                  MotionToast(
+                                                          primaryColor:
+                                                              Colors.blue,
+                                                          width: 300,
+                                                          height: 50,
+                                                          position:
+                                                              MotionToastPosition
+                                                                  .center,
+                                                          description:
+                                                              Text("failed"))
+                                                      .show(context);
+                                                }
+                                                progressDialog.dismiss();
+                                              } on FirebaseAuthException catch (e) {
+                                                progressDialog.dismiss();
+                                                if (e.code ==
+                                                    'email-already-in-use') {
+                                                  MotionToast(
+                                                          primaryColor:
+                                                              Colors.blue,
+                                                          width: 300,
+                                                          height: 50,
+                                                          position:
+                                                              MotionToastPosition
+                                                                  .center,
+                                                          description: Text(
+                                                              "email is already exist"))
+                                                      .show(context);
+                                                } else if (e.code ==
+                                                    'weak-password') {
+                                                  MotionToast(
+                                                          primaryColor:
+                                                              Colors.blue,
+                                                          width: 300,
+                                                          height: 50,
+                                                          position:
+                                                              MotionToastPosition
+                                                                  .center,
+                                                          description: Text(
+                                                              "password is weak"))
+                                                      .show(context);
+                                                }
+                                              } catch (e) {
+                                                progressDialog.dismiss();
+                                                MotionToast(
+                                                        primaryColor:
+                                                            Colors.blue,
+                                                        width: 300,
+                                                        height: 50,
+                                                        position:
+                                                            MotionToastPosition
+                                                                .center,
+                                                        description: Text(
+                                                            "something went wrong"))
+                                                    .show(context);
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ]),
+            ),
           ),
         ),
       ),
     );
   }
 }
+

@@ -71,7 +71,7 @@ class _AddCentersState extends State<AddCenters> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 1.h,
+                      height: 20.h,
                     ),
                     Text('صورة السجل'),
                     Align(
@@ -84,7 +84,7 @@ class _AddCentersState extends State<AddCenters> {
                               child: CircleAvatar(
                                 radius: 65,
                                 backgroundColor:
-                                    Color.fromARGB(255, 235, 234, 234),
+                                    Color.fromRGBO(192, 215, 234, 1),
                                 backgroundImage:
                                     image == null ? null : FileImage(image!),
                               )),
@@ -96,7 +96,7 @@ class _AddCentersState extends State<AddCenters> {
                                 child: RawMaterialButton(
                                     // constraints: BoxConstraints.tight(const Size(45, 45)),
                                     elevation: 10,
-                                    fillColor: Colors.red,
+                                    fillColor: Colors.blue,
                                     child: const Align(
                                         // ignore: unnecessary_const
                                         child: Icon(Icons.add_a_photo,
@@ -104,114 +104,13 @@ class _AddCentersState extends State<AddCenters> {
                                     padding: const EdgeInsets.all(15),
                                     shape: const CircleBorder(),
                                     onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('Choose option',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.red)),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: [
-                                                    InkWell(
-                                                        onTap: () {
-                                                          pickImageFromDevice();
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons.image,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Gallery',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        )),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          // pickImageFromCamera();
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons.camera,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Camera',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        )),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons
-                                                                      .remove_circle,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Remove',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          });
+                                      pickImageFromDevice();
                                     }),
                               )),
                         ],
                       ),
                     ),
-                       SizedBox(
+                    SizedBox(
                       height: 20.h,
                     ),
                     SizedBox(
@@ -222,7 +121,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'رقم السجل',
@@ -240,7 +139,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'الأسم',
@@ -256,7 +155,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'العنوان',
@@ -272,7 +171,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'البريد الالكترونى',
@@ -290,7 +189,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'كلمة المرور',
@@ -308,7 +207,7 @@ class _AddCentersState extends State<AddCenters> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'رقم الهاتف',
@@ -323,7 +222,7 @@ class _AddCentersState extends State<AddCenters> {
                           width: double.infinity, height: 65.h),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          primary: Colors.blue,
                         ),
                         onPressed: () async {
                           String name = nameController.text.trim();
@@ -339,7 +238,8 @@ class _AddCentersState extends State<AddCenters> {
                               email.isEmpty ||
                               password.isEmpty ||
                               phoneNumber.isEmpty ||
-                              address.isEmpty || imageUrl.isEmpty) {
+                              address.isEmpty ||
+                              imageUrl.isEmpty) {
                             CherryToast.info(
                               title: Text('Please Fill all Fields'),
                               actionHandler: () {},

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:road_emergency/screens/centers/add_technical.dart';
 import 'package:road_emergency/screens/models/technical_model.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -57,104 +58,196 @@ class _CenterTechnicalState extends State<CenterTechnical> {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            title: Align(
-                alignment: Alignment.topRight,
-                child: TextButton.icon(
-                  // Your icon here
-                  label: Text(
-                    'أضافة فنى',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+          
+          body: Column(
+            children: [
+              Container(
+                height: 150.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [.01, .25],
+                    colors: [
+                      Colors.blue,
+                      Color.fromRGBO(124, 180, 226, 1),
+                    ],
                   ),
-                  icon: Align(
-                      child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  )), // Your text here
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return AddTechnical(
-                        centerName: '${widget.centerName}',
-                        serviceName: '${widget.serviceName}',
-                      );
-                    }));
-                  },
-                )),
-          ),
-          body: Container(
-            width: double.infinity,
-            child: StaggeredGridView.countBuilder(
-              padding: EdgeInsets.only(
-                top: 20.h,
-                left: 15.w,
-                right: 15.w,
-                bottom: 15.h,
-              ),
-              crossAxisCount: 6,
-              itemCount: technicalList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
                   ),
-                  child: Column(children: [
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40.h,
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(
-                        top: 10.h,
-                      ),
-                      child: CircleAvatar(
-                        radius: 37,
-                        backgroundImage: NetworkImage(
-                            '${technicalList[index].imageUrl.toString()}'),
+                      padding: EdgeInsets.only(right: 20.w),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.blue, //<-- SEE HERE
+                            child: IconButton(
+                              icon: Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return AddTechnical(
+                                    centerName: '${widget.centerName}',
+                                    serviceName: '${widget.serviceName}',
+                                  );
+                                }));
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 250.w,
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.blue, //<-- SEE HERE
+                            child: IconButton(
+                              icon: Center(
+                                child: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Text(
-                      '${technicalList[index].name.toString()}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      'الفنيين',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
                     ),
-                    Text('${technicalList[index].phoneNumber.toString()}'),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Padding(
-                      padding:  EdgeInsets.only(
-                        right: 10.w,
-                        left: 10.w
-                      ),
-                      child: Text('${technicalList[index].exp.toString()}'),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    super.widget));
-                        FirebaseDatabase.instance
-                            .reference()
-                            .child('craftsMen')
-                            .child('${widget.centerName}').
-                            child('${widget.serviceName}')
-                            .child('${technicalList[index].id}')
-                            .remove();
-                      },
-                      child: Icon(Icons.delete,
-                          color: Color.fromARGB(255, 122, 122, 122)),
-                    )
-                  ]),
-                );
-              },
-              staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(3, index.isEven ? 3 : 3),
-              mainAxisSpacing: 40.0,
-              crossAxisSpacing: 5.0,
-            ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Expanded(
+                  flex: 8,
+                  child: ListView.builder(
+                      itemCount: technicalList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(right: 20.w, left: 20.w),
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Card(
+                                      child: Column(
+                                        children: [
+                                          Image.network(
+                                            '${technicalList[index].imageUrl}',
+                                            height: 100.h,
+                                          ),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              '${technicalList[index].name.toString()}',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              'رقم الهاتف : ${technicalList[index].phoneNumber.toString()}',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                          FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              'الخبرة : ${technicalList[index].exp.toString()}',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                         ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(
+                                width: 90, height: 37.h),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromRGBO(124, 180, 226, 1),
+                                padding: const EdgeInsets.all(0.0),
+                                elevation: 5,
+                              ),
+                              onPressed: () async {
+                                 Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          super.widget));
+                              FirebaseDatabase.instance
+                                  .reference()
+                                  .child('technicals')
+                                  .child('${widget.centerName}')
+                                  .child('${widget.serviceName}')
+                                  .child('${technicalList[index].id}')
+                                  .remove();
+                              }, child: Text("حذف الفنى"),
+                              
+                            ),
+                          ),
+                                          SizedBox(height: 5.h),
+                                          
+                                          
+                                        ],
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              )
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              
+            ],
           ),
         ),
       ),

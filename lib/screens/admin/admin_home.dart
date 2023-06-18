@@ -24,99 +24,208 @@ class _AdminHomeState extends State<AdminHome> {
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.red,
-            title: Center(child: Text('الصفحة الرئيسية'))
-          ),
           body: Column(
             children: [
-              Image.asset(
-                'assets/images/logo.jfif',
-                height: 180.h,
-              ),
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                    color: Colors.red,
+              Container(
+                height: 150.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [.01, .25],
+                    colors: [
+                      Colors.blue,
+                      Color.fromRGBO(124, 180, 226, 1),
+                    ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 70.h,
-                        ),
-                        Text(
-                          'الخدمات المتاحة',
-                          style: TextStyle(
-                            fontFamily: 'ElMessiri',
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.h, right: 10.w, left: 10.w),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text('تأكيد'),
-                                              content: Text(
-                                                  'هل انت متأكد من تسجيل الخروج'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    FirebaseAuth.instance
-                                                        .signOut();
-                                                    Navigator.pushNamed(context,
-                                                        UserLogin.routeName);
-                                                  },
-                                                  child: Text('نعم'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('لا'),
-                                                ),
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    child: card('تسجيل الخروج', '#e8b823')),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, AdminCenters.routeName);
-                                    },
-                                    child: card('أضافة مركز', '#ed872d')),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
                   ),
                 ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20.w),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            backgroundImage:
+                                AssetImage('assets/images/logo.jpg'),
+                          ),
+                          SizedBox(
+                            width: 250.w,
+                          ),
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.blue, //<-- SEE HERE
+                            child: IconButton(
+                              icon: Center(
+                                child: Icon(
+                                  Icons.logout,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('تأكيد'),
+                                        content: Text(
+                                            'هل انت متأكد من تسجيل الخروج'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              FirebaseAuth.instance.signOut();
+                                              Navigator.pushNamed(
+                                                  context, UserLogin.routeName);
+                                            },
+                                            child: Text('نعم'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('لا'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'الصفحة الرئيسية',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
+              Image.asset(
+                'assets/images/admin.jpg',
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 20.w),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, AdminCenters.routeName);
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/center.jpg',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  "اضافة مركز",
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30.w,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('تأكيد'),
+                                content: Text('هل انت متأكد من تسجيل الخروج'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      FirebaseAuth.instance.signOut();
+                                      Navigator.pushNamed(
+                                          context, UserLogin.routeName);
+                                    },
+                                    child: Text('نعم'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('لا'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                          child: Center(
+                            child: Column(children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Image.asset('assets/images/logout.png',
+                                  width: 120.w, height: 120.h),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: Text(
+                                  'تسجيل الخروج',
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -124,6 +233,7 @@ class _AdminHomeState extends State<AdminHome> {
     );
   }
 }
+
 Widget card(String text, String color) {
   return Container(
     child: Card(

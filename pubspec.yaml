@@ -81,7 +81,7 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 flutter_icons:
-  image_path: "assets/images/icon.jfif"
+  image_path: "assets/images/logo.jpg"
   android: true
 
 # The following section is specific to Flutter packages.

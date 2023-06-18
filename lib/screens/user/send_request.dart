@@ -133,7 +133,7 @@ class _SendRequestState extends State<SendRequest> {
                                 child: RawMaterialButton(
                                     // constraints: BoxConstraints.tight(const Size(45, 45)),
                                     elevation: 10,
-                                    fillColor: Colors.red,
+                                    fillColor: Colors.blue,
                                     child: const Align(
                                         // ignore: unnecessary_const
                                         child: Icon(Icons.add_a_photo,
@@ -141,108 +141,7 @@ class _SendRequestState extends State<SendRequest> {
                                     padding: const EdgeInsets.all(15),
                                     shape: const CircleBorder(),
                                     onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('Choose option',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.red)),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: [
-                                                    InkWell(
-                                                        onTap: () {
-                                                          pickImageFromDevice();
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons.image,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Gallery',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        )),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          // pickImageFromCamera();
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons.camera,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Camera',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        )),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        },
-                                                        splashColor:
-                                                            HexColor('#FA8072'),
-                                                        child: Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Icon(
-                                                                  Icons
-                                                                      .remove_circle,
-                                                                  color: Colors
-                                                                      .red),
-                                                            ),
-                                                            Text('Remove',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ))
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          });
+                                      pickImageFromDevice();
                                     }),
                               )),
                         ],
@@ -259,7 +158,7 @@ class _SendRequestState extends State<SendRequest> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'التاريخ',
@@ -275,7 +174,7 @@ class _SendRequestState extends State<SendRequest> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'العنوان الحالى',
@@ -294,7 +193,7 @@ class _SendRequestState extends State<SendRequest> {
                           fillColor: HexColor('#155564'),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.red, width: 2.0),
+                                BorderSide(color: Colors.blue, width: 2.0),
                           ),
                           border: OutlineInputBorder(),
                           hintText: 'الوصف',
@@ -309,7 +208,7 @@ class _SendRequestState extends State<SendRequest> {
                           width: double.infinity, height: 65.h),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          primary: Colors.blue,
                         ),
                         onPressed: () async {
                           String date = dateController.text.trim();

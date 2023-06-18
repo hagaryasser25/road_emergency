@@ -72,7 +72,7 @@ class _AddServiceState extends State<AddService> {
                             child: CircleAvatar(
                               radius: 65,
                               backgroundColor:
-                                  Color.fromARGB(255, 235, 234, 234),
+                                  Color.fromRGBO(192, 215, 234, 1),
                               backgroundImage:
                                   image == null ? null : FileImage(image!),
                             )),
@@ -84,7 +84,7 @@ class _AddServiceState extends State<AddService> {
                               child: RawMaterialButton(
                                   // constraints: BoxConstraints.tight(const Size(45, 45)),
                                   elevation: 10,
-                                  fillColor: Colors.red,
+                                  fillColor: Colors.blue,
                                   child: const Align(
                                       // ignore: unnecessary_const
                                       child: Icon(Icons.add_a_photo,
@@ -92,104 +92,7 @@ class _AddServiceState extends State<AddService> {
                                   padding: const EdgeInsets.all(15),
                                   shape: const CircleBorder(),
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Choose option',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.red)),
-                                            content: SingleChildScrollView(
-                                              child: ListBody(
-                                                children: [
-                                                  InkWell(
-                                                      onTap: () {
-                                                        pickImageFromDevice();
-                                                      },
-                                                      splashColor:
-                                                          HexColor('#FA8072'),
-                                                      child: Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Icon(
-                                                                Icons.image,
-                                                                color: Colors
-                                                                    .red),
-                                                          ),
-                                                          Text('Gallery',
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ))
-                                                        ],
-                                                      )),
-                                                  InkWell(
-                                                      onTap: () {
-                                                        // pickImageFromCamera();
-                                                      },
-                                                      splashColor:
-                                                          HexColor('#FA8072'),
-                                                      child: Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Icon(
-                                                                Icons.camera,
-                                                                color: Colors
-                                                                    .red),
-                                                          ),
-                                                          Text('Camera',
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ))
-                                                        ],
-                                                      )),
-                                                  InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
-                                                      },
-                                                      splashColor:
-                                                          HexColor('#FA8072'),
-                                                      child: Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Icon(
-                                                                Icons
-                                                                    .remove_circle,
-                                                                color: Colors
-                                                                    .red),
-                                                          ),
-                                                          Text('Remove',
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ))
-                                                        ],
-                                                      ))
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        });
+                                    pickImageFromDevice();
                                   }),
                             )),
                       ],
@@ -205,8 +108,7 @@ class _AddServiceState extends State<AddService> {
                       decoration: InputDecoration(
                         fillColor: HexColor('#155564'),
                         focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.red, width: 2.0),
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
                         ),
                         border: OutlineInputBorder(),
                         hintText: 'اسم الخدمة',
@@ -219,7 +121,7 @@ class _AddServiceState extends State<AddService> {
                         width: double.infinity, height: 65.h),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
+                        primary: Colors.blue,
                       ),
                       onPressed: () async {
                         String name = nameController.text.trim();
